@@ -42,7 +42,9 @@ npm install
 yarn install
 ```
 
-3. Set up your environment variables (copy from `.env.example` if available)
+3. Set up your environment variables (copy from `.env.example` if available):
+   - `DATABASE_URL` - PostgreSQL connection string
+   - `OPENAI_API_KEY` - OpenAI API key for the chatbot feature
 
 4. Run database migrations and seed data:
 ```bash
@@ -77,6 +79,9 @@ Once running, you can access:
 ```
 src/
 ├── api/           # API routes
+│   └── store/
+│       └── chatbot/  # AI chatbot endpoint
+├── constants/     # Shared constants (system prompts, etc.)
 ├── modules/       # Custom modules
 ├── scripts/       # Utility scripts
 └── ...
