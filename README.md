@@ -45,6 +45,9 @@ yarn install
 3. Set up your environment variables (copy from `.env.example` if available):
    - `DATABASE_URL` - PostgreSQL connection string
    - `OPENAI_API_KEY` - OpenAI API key for the chatbot feature
+   - `SUPABASE_URL` - Supabase project URL
+   - `SUPABASE_SERVICE_ROLE_KEY` - Supabase service role key (server-only)
+   - `SUPABASE_STORAGE_BUCKET_RAG` - Storage bucket name for RAG documents (e.g. `rag-documents`)
 
 4. Run database migrations and seed data:
 ```bash
