@@ -12,6 +12,7 @@ This is the backend API for the Solidon e-commerce platform, providing:
 - Inventory management
 - Admin dashboard
 
+
 ## Tech Stack
 
 - **Framework**: Medusa.js v2
@@ -42,7 +43,10 @@ npm install
 yarn install
 ```
 
-3. Set up your environment variables (copy from `.env.example` if available)
+3. Set up your environment variables:
+   - Copy `.env.example` to `.env`
+   - Add your database credentials (Supabase)
+   - Add your Redis URL (Upstash - see deployment section)
 
 4. Run database migrations and seed data:
 ```bash
@@ -55,6 +59,28 @@ npm run dev
 ```
 
 The API will be available at `http://localhost:9000`
+
+## Deployment
+
+This application uses managed cloud services for simplicity:
+
+- **Database**: Supabase (PostgreSQL)
+- **Redis**: Upstash (Serverless Redis)
+- **Backend Hosting**: Railway / Render
+- **Frontend Hosting**: Vercel
+
+### Environment Variables
+
+Required environment variables:
+```env
+DATABASE_URL=          # Supabase PostgreSQL URL
+REDIS_URL=            # Upstash Redis URL (rediss://...)
+JWT_SECRET=           # Random string (min 32 chars)
+COOKIE_SECRET=        # Random string (min 32 chars)
+STORE_CORS=           # Frontend URL
+ADMIN_CORS=           # Admin/Frontend URLs
+AUTH_CORS=            # Auth URLs
+```
 
 ## Available Scripts
 
