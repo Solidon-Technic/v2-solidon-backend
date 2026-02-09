@@ -25,3 +25,6 @@ build
 !.yarn/versions
 
 .medusa
+
+emag_products_ingest/
+/emag_products_ingest/**
