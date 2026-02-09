@@ -44,7 +44,7 @@ const RagDocumentsPage = () => {
             const data = await response.json();
             setDocuments(data.documents || []);
         } catch (error) {
-            toast.error("Failed to fetch documents");
+            toast.error("Încărcarea documentelor a eșuat");
         } finally {
             setLoading(false);
         }
@@ -109,11 +109,11 @@ const RagDocumentsPage = () => {
                 throw new Error(error.error || "Failed to create document");
             }
 
-            toast.success("Document uploaded and processed successfully");
+            toast.success("Documentul a fost încărcat și procesat cu succes");
             fetchDocuments();
         } catch (error) {
             toast.error(
-                error instanceof Error ? error.message : "Upload failed"
+                error instanceof Error ? error.message : "Încărcarea a eșuat"
             );
         } finally {
             setUploading(false);
@@ -123,7 +123,7 @@ const RagDocumentsPage = () => {
 
     const handleTextUpload = async () => {
         if (!textTitle.trim() || !textContent.trim()) {
-            toast.error("Please provide both a title and content");
+            toast.error("Te rugăm să completezi atât titlul cât și conținutul");
             return;
         }
 
@@ -145,14 +145,14 @@ const RagDocumentsPage = () => {
                 throw new Error(error.error || "Failed to upload text");
             }
 
-            toast.success("Text uploaded and processed successfully");
+            toast.success("Textul a fost încărcat și procesat cu succes");
             setTextTitle("");
             setTextContent("");
             setShowTextForm(false);
             fetchDocuments();
         } catch (error) {
             toast.error(
-                error instanceof Error ? error.message : "Text upload failed"
+                error instanceof Error ? error.message : "Încărcarea textului a eșuat"
             );
         } finally {
             setUploadingText(false);
@@ -166,7 +166,7 @@ const RagDocumentsPage = () => {
             });
 
             if (!response.ok) {
-                throw new Error("Failed to get download URL");
+                throw new Error("Obținerea URL-ului de descărcare a eșuat");
             }
 
             const { download_url } = await response.json();
@@ -180,13 +180,13 @@ const RagDocumentsPage = () => {
             link.click();
             document.body.removeChild(link);
         } catch (error) {
-            toast.error("Failed to download document");
+            toast.error("Descărcarea documentului a eșuat");
         }
     };
 
     const handleDownloadAll = async () => {
         if (documents.length === 0) {
-            toast.error("No documents to download");
+            toast.error("Nu există documente de descărcat");
             return;
         }
 
@@ -198,7 +198,7 @@ const RagDocumentsPage = () => {
             });
 
             if (!response.ok) {
-                throw new Error("Failed to download archive");
+                throw new Error("Descărcarea arhivei a eșuat");
             }
 
             // Get the blob and trigger download
@@ -212,16 +212,16 @@ const RagDocumentsPage = () => {
             document.body.removeChild(link);
             window.URL.revokeObjectURL(url);
 
-            toast.success("Archive downloaded successfully");
+            toast.success("Arhiva a fost descărcată cu succes");
         } catch (error) {
-            toast.error("Failed to download archive");
+            toast.error("Descărcarea arhivei a eșuat");
         } finally {
             setDownloadingAll(false);
         }
     };
 
     const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this document?")) return;
+        if (!confirm("Ești sigur că vrei să ștergi acest document?")) return;
 
         try {
             const response = await fetch(`/admin/rag/documents/${id}`, {
@@ -230,13 +230,13 @@ const RagDocumentsPage = () => {
             });
 
             if (!response.ok) {
-                throw new Error("Failed to delete document");
+                throw new Error("Ștergerea documentului a eșuat");
             }
 
-            toast.success("Document deleted");
+            toast.success("Documentul a fost șters");
             fetchDocuments();
         } catch (error) {
-            toast.error("Failed to delete document");
+            toast.error("Ștergerea documentului a eșuat");
         }
     };
 
@@ -248,13 +248,13 @@ const RagDocumentsPage = () => {
             });
 
             if (!response.ok) {
-                throw new Error("Failed to re-ingest document");
+                throw new Error("Re-procesarea documentului a eșuat");
             }
 
-            toast.success("Document re-ingested successfully");
+            toast.success("Documentul a fost re-procesat cu succes");
             fetchDocuments();
         } catch (error) {
-            toast.error("Failed to re-ingest document");
+            toast.error("Re-procesarea documentului a eșuat");
         }
     };
 
@@ -278,13 +278,13 @@ const RagDocumentsPage = () => {
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
                 <div>
-                    <Heading level="h1">Knowledge Base Documents</Heading>
+                    <Heading level="h1">Documente bază de cunoștințe</Heading>
                     <Text className="text-ui-fg-subtle mt-1">
-                        Upload PDFs, text files, or enter text directly to power
-                        the chatbot's knowledge base
+                        Încarcă PDF-uri, fișiere text sau introdu text direct pentru a
+                        alimenta baza de cunoștințe a chatbot-ului
                     </Text>
                     <Badge color="blue" className="mt-2">
-                        Organisational Only
+                        Doar organizațional
                     </Badge>
                 </div>
                 <div className="flex gap-2">
@@ -295,14 +295,14 @@ const RagDocumentsPage = () => {
                             onClick={handleDownloadAll}
                         >
                             <ArrowDownTray className="w-4 h-4 mr-2" />
-                            {downloadingAll ? "Downloading..." : "Download All"}
+                            {downloadingAll ? "Se descarcă..." : "Descarcă tot"}
                         </Button>
                     )}
                     <Button
                         variant="secondary"
                         onClick={() => setShowTextForm(!showTextForm)}
                     >
-                        {showTextForm ? "Cancel" : "Add Text"}
+                        {showTextForm ? "Anulează" : "Adaugă text"}
                     </Button>
                     <input
                         type="file"
@@ -319,7 +319,7 @@ const RagDocumentsPage = () => {
                             document.getElementById("file-upload")?.click()
                         }
                     >
-                        {uploading ? "Uploading..." : "Upload File"}
+                        {uploading ? "Se încarcă..." : "Încarcă fișier"}
                     </Button>
                 </div>
             </div>
@@ -328,24 +328,24 @@ const RagDocumentsPage = () => {
             {showTextForm && (
                 <div className="mb-6 p-4 border border-ui-border-base rounded-lg bg-ui-bg-subtle">
                     <Heading level="h2" className="mb-4">
-                        Add Text Content
+                        Adaugă conținut text
                     </Heading>
                     <div className="space-y-4">
                         <div>
-                            <Label htmlFor="text-title">Title</Label>
+                            <Label htmlFor="text-title">Titlu</Label>
                             <Input
                                 id="text-title"
-                                placeholder="e.g., Shipping Policy"
+                                placeholder="ex., Politica de livrare"
                                 value={textTitle}
                                 onChange={(e) => setTextTitle(e.target.value)}
                                 className="mt-1"
                             />
                         </div>
                         <div>
-                            <Label htmlFor="text-content">Content</Label>
+                            <Label htmlFor="text-content">Conținut</Label>
                             <Textarea
                                 id="text-content"
-                                placeholder="Enter your knowledge base content here..."
+                                placeholder="Introdu conținutul bazei de cunoștințe aici..."
                                 value={textContent}
                                 onChange={(e) => setTextContent(e.target.value)}
                                 rows={6}
@@ -358,7 +358,7 @@ const RagDocumentsPage = () => {
                                 disabled={uploadingText}
                                 onClick={handleTextUpload}
                             >
-                                {uploadingText ? "Uploading..." : "Upload Text"}
+                                {uploadingText ? "Se încarcă..." : "Încarcă text"}
                             </Button>
                             <Button
                                 variant="secondary"
@@ -368,7 +368,7 @@ const RagDocumentsPage = () => {
                                     setTextContent("");
                                 }}
                             >
-                                Cancel
+                                Anulează
                             </Button>
                         </div>
                     </div>
@@ -377,13 +377,13 @@ const RagDocumentsPage = () => {
 
             {/* Documents List */}
             {loading ? (
-                <Text>Loading documents...</Text>
+                <Text>Se încarcă documentele...</Text>
             ) : documents.length === 0 ? (
                 <div className="text-center py-12 border border-dashed border-ui-border-base rounded-lg">
                     <DocumentText className="w-12 h-12 mx-auto text-ui-fg-muted mb-4" />
                     <Text className="text-ui-fg-subtle">
-                        No documents uploaded yet. Upload a file or add text to
-                        get started.
+                        Nu există documente încărcate. Încarcă un fișier sau adaugă
+                        text pentru a începe.
                     </Text>
                 </div>
             ) : (
@@ -392,19 +392,19 @@ const RagDocumentsPage = () => {
                         <thead className="bg-ui-bg-subtle">
                             <tr>
                                 <th className="text-left px-4 py-3 text-ui-fg-subtle font-medium">
-                                    Filename
+                                    Nume fișier
                                 </th>
                                 <th className="text-left px-4 py-3 text-ui-fg-subtle font-medium">
-                                    Type
+                                    Tip
                                 </th>
                                 <th className="text-left px-4 py-3 text-ui-fg-subtle font-medium">
                                     Status
                                 </th>
                                 <th className="text-left px-4 py-3 text-ui-fg-subtle font-medium">
-                                    Uploaded
+                                    Încărcat
                                 </th>
                                 <th className="text-right px-4 py-3 text-ui-fg-subtle font-medium">
-                                    Actions
+                                    Acțiuni
                                 </th>
                             </tr>
                         </thead>
@@ -451,7 +451,7 @@ const RagDocumentsPage = () => {
                                                     )
                                                 }
                                             >
-                                                Download
+                                                Descarcă
                                             </Button>
                                             <Button
                                                 variant="secondary"
@@ -460,7 +460,7 @@ const RagDocumentsPage = () => {
                                                     handleReIngest(doc.id)
                                                 }
                                             >
-                                                Re-ingest
+                                                Re-procesează
                                             </Button>
                                             <Button
                                                 variant="danger"
@@ -469,7 +469,7 @@ const RagDocumentsPage = () => {
                                                     handleDelete(doc.id)
                                                 }
                                             >
-                                                Delete
+                                                Șterge
                                             </Button>
                                         </div>
                                     </td>
@@ -484,7 +484,7 @@ const RagDocumentsPage = () => {
 };
 
 export const config = defineRouteConfig({
-    label: "Knowledge Base",
+    label: "Bază de cunoștințe",
     icon: DocumentText,
 });
 
