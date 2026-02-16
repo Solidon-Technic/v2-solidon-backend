@@ -28,3 +28,9 @@ build
 
 emag_products_ingest/
 /emag_products_ingest/**
+
+# Temporary/development files
+EMAG_CATEGORY_SYNC.md
+check-table-structure.mjs
+run-migrations.mjs
+verify-categories.mjs
